@@ -1,0 +1,1544 @@
+<!doctype html>
+<html lang="en" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>工单系统 V1 交互原型</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="工单系统 V1 交互原型" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;工单系统 V1 交互原型&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled=&quot;true&quot;]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled=&quot;true&quot;] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;it-desk-v1&quot; aria-label=&quot;IT 服务台页面草图&quot;&gt;
+  &lt;style&gt;
+    #it-desk-v1{--it-bg:light-dark(#f5f7f8,#131b23);--it-paper:light-dark(#ffffff,#1b2630);--it-ink:light-dark(#172d38,#e3edf0);--it-muted:light-dark(#60747e,#adbdc7);--it-line:light-dark(#e0e7e9,#354652);--it-soft:light-dark(#eef3f4,#253540);--it-accent:light-dark(#087c70,#72d9c7);--it-on:light-dark(#ffffff,#102b29);--it-tint:light-dark(#e8f5f1,#183c39);--it-warn:light-dark(#8b5a16,#f5c781);--it-warm:light-dark(#fff6e6,#3b3223);--it-red:light-dark(#a54646,#f0aaaa);--it-radius:14px;--it-pad:22px;color:var(--it-ink);font-family:Inter,&quot;Segoe UI&quot;,&quot;Microsoft YaHei&quot;,sans-serif;font-size:14px;line-height:1.65;background:transparent;container-type:inline-size}
+    #it-desk-v1 *{box-sizing:border-box}#it-desk-v1 [hidden]{display:none!important}#it-desk-v1 h1,#it-desk-v1 h2,#it-desk-v1 h3,#it-desk-v1 p{margin:0}#it-desk-v1 h1{font-size:24px;font-weight:500;line-height:1.4;letter-spacing:-.5px}#it-desk-v1 h2{font-size:17px;font-weight:500}#it-desk-v1 h3{font-size:14px;font-weight:500}#it-desk-v1 button,#it-desk-v1 input,#it-desk-v1 select,#it-desk-v1 textarea{font:inherit;color:inherit;max-width:100%}#it-desk-v1 button{cursor:pointer}#it-desk-v1 button:disabled{cursor:not-allowed;opacity:.5}#it-desk-v1 button:focus-visible,#it-desk-v1 input:focus-visible,#it-desk-v1 textarea:focus-visible,#it-desk-v1 select:focus-visible{outline:3px solid var(--it-accent);outline-offset:3px}#it-desk-v1 input,#it-desk-v1 select,#it-desk-v1 textarea{border:1px solid var(--it-line);background:var(--it-paper);border-radius:8px;padding:9px 11px;min-width:0}#it-desk-v1 textarea{width:100%;resize:vertical;min-height:100px}#it-desk-v1 label{display:block}#it-desk-v1 label&gt;span{display:block;margin-bottom:6px}#it-desk-v1 small{font-size:12px;color:var(--it-muted)}
+    #it-desk-v1 .it-preview{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;background:var(--it-paper);border:1px solid var(--it-line);border-radius:var(--it-radius) var(--it-radius) 0 0}#it-desk-v1 .it-preview label{display:flex;align-items:center;gap:10px;flex-wrap:wrap}#it-desk-v1 .it-preview select{padding:6px 9px}#it-desk-v1 .it-shell{display:grid;grid-template-columns:170px minmax(0,1fr);background:var(--it-bg);border:1px solid var(--it-line);border-top:0;border-radius:0 0 var(--it-radius) var(--it-radius);overflow:clip;min-height:680px}#it-desk-v1 .it-sidebar{padding:24px 14px;background:var(--it-paper);border-right:1px solid var(--it-line);display:flex;flex-direction:column;gap:30px}#it-desk-v1 .it-brand{display:flex;align-items:center;gap:9px;font-weight:500;font-size:16px;padding:0 6px}#it-desk-v1 .it-logo{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--it-accent);color:var(--it-on);flex-shrink:0}#it-desk-v1 .it-label{font-size:11px;letter-spacing:1.4px;color:var(--it-muted);margin:0 10px 10px}#it-desk-v1 .it-nav{display:grid;gap:6px}#it-desk-v1 .it-nav button{display:flex;align-items:center;gap:10px;text-align:left;border:0;border-radius:8px;padding:11px 12px;background:transparent;color:var(--it-muted)}#it-desk-v1 .it-nav button[aria-current=&quot;page&quot;]{background:var(--it-tint);color:var(--it-accent);font-weight:500}#it-desk-v1 .it-nav button:hover{background:var(--it-soft)}#it-desk-v1 .it-sidebar-foot{margin-top:auto;border-top:1px solid var(--it-line);padding:16px 8px 0;color:var(--it-muted);font-size:12px}#it-desk-v1 .it-body{min-width:0}#it-desk-v1 .it-topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 26px;background:var(--it-paper);border-bottom:1px solid var(--it-line);flex-wrap:wrap}#it-desk-v1 .it-user{display:flex;gap:9px;align-items:center}#it-desk-v1 .it-avatar{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--it-soft);color:var(--it-ink);flex-shrink:0;font-size:12px}#it-desk-v1 .it-main{padding:26px;min-width:0}#it-desk-v1 .it-heading{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:22px;flex-wrap:wrap}#it-desk-v1 .it-kicker{color:var(--it-accent);font-size:11px;letter-spacing:1.7px;margin-bottom:6px}#it-desk-v1 .it-sub{color:var(--it-muted);font-size:13px;margin-top:7px}#it-desk-v1 .it-row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}#it-desk-v1 .it-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 14px;border:1px solid var(--it-line);border-radius:8px;background:var(--it-paper);font-weight:500;text-decoration:none}#it-desk-v1 .it-button:hover{background:var(--it-soft)}#it-desk-v1 .it-button.it-primary{background:var(--it-accent);color:var(--it-on);border-color:var(--it-accent)}#it-desk-v1 .it-button.it-danger{color:var(--it-red)}#it-desk-v1 .it-link{border:0;background:transparent;padding:0;color:var(--it-accent);text-align:left}#it-desk-v1 .it-link:hover{text-decoration:underline}#it-desk-v1 .it-panel{background:var(--it-paper);border:1px solid var(--it-line);border-radius:var(--it-radius);padding:var(--it-pad);min-width:0}#it-desk-v1 .it-stack{display:grid;gap:16px}#it-desk-v1 .it-detail{display:grid;grid-template-columns:minmax(0,1fr) 224px;gap:18px;align-items:start}#it-desk-v1 .it-badge{display:inline-flex;align-items:center;gap:6px;border-radius:6px;background:var(--it-soft);padding:3px 8px;font-size:12px;white-space:nowrap}#it-desk-v1 .it-badge:before{content:&quot;&quot;;width:5px;height:5px;border-radius:50%;background:currentColor}#it-desk-v1 .it-badge[data-state=&quot;PROCESSING&quot;]{background:var(--it-tint);color:var(--it-accent)}#it-desk-v1 .it-badge[data-state=&quot;RESOLVED&quot;]{background:var(--it-warm);color:var(--it-warn)}#it-desk-v1 .it-badge[data-state=&quot;CLOSED&quot;]{color:var(--it-accent)}#it-desk-v1 .it-notice{border:1px solid var(--it-line);background:var(--it-tint);color:var(--it-accent);padding:13px 16px;border-radius:10px;margin-bottom:18px;font-size:13px}#it-desk-v1 .it-notice.it-neutral{background:var(--it-soft);color:var(--it-muted)}#it-desk-v1 .it-notice.it-warning{background:var(--it-warm);color:var(--it-warn)}#it-desk-v1 .it-section-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}#it-desk-v1 .it-copy{white-space:pre-wrap;overflow-wrap:anywhere}#it-desk-v1 .it-attachment{display:flex;align-items:center;gap:10px;margin-top:18px;padding:12px;background:var(--it-bg);border:1px solid var(--it-line);border-radius:9px;font-size:12px}#it-desk-v1 .it-thumb{background:var(--it-paper);border:1px solid var(--it-line);border-radius:6px;padding:11px;color:var(--it-accent)}#it-desk-v1 .it-message{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:15px 0;border-bottom:1px solid var(--it-line)}#it-desk-v1 .it-message:first-child{padding-top:0}#it-desk-v1 .it-message:last-child{border:0}#it-desk-v1 .it-message .it-copy{margin-top:5px;font-size:13px}#it-desk-v1 .it-compose{border-top:1px solid var(--it-line);padding-top:18px;margin-top:12px}#it-desk-v1 .it-compose textarea{min-height:86px;margin:8px 0}#it-desk-v1 .it-props{display:grid;gap:14px;margin:0}#it-desk-v1 .it-props div{display:grid;gap:3px}#it-desk-v1 .it-props dt{color:var(--it-muted);font-size:12px}#it-desk-v1 .it-props dd{margin:0;font-size:13px;overflow-wrap:anywhere}#it-desk-v1 .it-actions{display:grid;gap:9px;margin-top:18px}#it-desk-v1 .it-actions .it-button{width:100%}#it-desk-v1 .it-rule{margin:18px 0;border:0;border-top:1px solid var(--it-line)}#it-desk-v1 .it-timeline{padding:0;margin:16px 0 0;list-style:none}#it-desk-v1 .it-timeline li{position:relative;padding:0 0 16px 17px;border-left:1px solid var(--it-line);font-size:12px;overflow-wrap:anywhere}#it-desk-v1 .it-timeline li:before{content:&quot;&quot;;position:absolute;left:-4px;top:7px;width:7px;height:7px;border-radius:50%;background:var(--it-muted)}#it-desk-v1 .it-timeline li:last-child{padding-bottom:0}#it-desk-v1 summary{cursor:pointer;font-weight:500}#it-desk-v1 .it-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}#it-desk-v1 .it-tabs button{padding:8px 13px;border:1px solid transparent;background:transparent;border-radius:8px;color:var(--it-muted)}#it-desk-v1 .it-tabs button[aria-pressed=&quot;true&quot;]{color:var(--it-accent);background:var(--it-tint);border-color:var(--it-line)}#it-desk-v1 .it-filters{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin-bottom:18px}#it-desk-v1 .it-filters label{flex:1;min-width:112px}#it-desk-v1 .it-filters label:first-child{flex:2;min-width:180px}#it-desk-v1 .it-filters label span{font-size:12px;color:var(--it-muted)}#it-desk-v1 .it-filters input,#it-desk-v1 .it-filters select{width:100%}#it-desk-v1 .it-ticket{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:18px var(--it-pad);border-bottom:1px solid var(--it-line)}#it-desk-v1 .it-ticket:last-child{border:0}#it-desk-v1 .it-ticket:hover{background:var(--it-bg)}#it-desk-v1 .it-ticket-title{font-size:14px;font-weight:500;color:var(--it-ink);margin:4px 0 7px}#it-desk-v1 .it-ticket-meta{color:var(--it-muted);font-size:12px;display:flex;gap:6px 14px;flex-wrap:wrap}#it-desk-v1 .it-list-panel{padding:0;overflow:clip}#it-desk-v1 .it-list-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px var(--it-pad);border-top:1px solid var(--it-line);font-size:12px;color:var(--it-muted)}#it-desk-v1 .it-empty{padding:44px 20px;text-align:center;color:var(--it-muted)}#it-desk-v1 .it-form{display:grid;gap:18px}#it-desk-v1 .it-form input,#it-desk-v1 .it-form select{width:100%}#it-desk-v1 .it-upload{border:1px dashed var(--it-line);border-radius:10px;padding:24px;text-align:center;background:var(--it-bg);color:var(--it-muted)}#it-desk-v1 .it-upload strong{display:block;color:var(--it-ink);font-weight:500;margin:7px 0}#it-desk-v1 .it-form-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}#it-desk-v1 .it-action-form{margin-bottom:18px;border-color:var(--it-accent)}#it-desk-v1 .it-error{color:var(--it-red);font-size:13px;margin-top:10px}#it-desk-v1 .it-error:empty{display:none}#it-desk-v1 .it-solution{border-left:3px solid var(--it-accent);padding:12px 14px;background:var(--it-tint);border-radius:0 8px 8px 0;margin-top:12px}#it-desk-v1 .it-solution .it-copy{margin:7px 0;font-size:13px}#it-desk-v1 .it-account-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:center;padding:16px 0;border-bottom:1px solid var(--it-line)}#it-desk-v1 .it-account-row:last-child{border:0}#it-desk-v1 .it-import{margin-top:20px}#it-desk-v1 .it-import-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}#it-desk-v1 .it-import-result{margin-top:16px}#it-desk-v1 .it-sample-table{width:100%;border-collapse:collapse;font-size:12px}#it-desk-v1 .it-sample-table th,#it-desk-v1 .it-sample-table td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--it-line);overflow-wrap:anywhere}#it-desk-v1 .it-sample-table th{font-weight:500;color:var(--it-muted)}#it-desk-v1 .it-footer{color:var(--it-muted);font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:22px}#it-desk-v1 .it-statusline{font-size:12px;color:var(--it-accent);padding:8px 16px;background:var(--it-paper);border-bottom:1px solid var(--it-line)}#it-desk-v1 .it-statusline:empty{display:none}
+    @container(max-width:850px){#it-desk-v1 .it-shell{grid-template-columns:140px minmax(0,1fr)}#it-desk-v1 .it-detail{grid-template-columns:minmax(0,1fr)}#it-desk-v1 .it-main{padding:20px}#it-desk-v1 .it-sideinfo{display:grid;grid-template-columns:1fr 1fr;gap:16px}#it-desk-v1 .it-sideinfo&gt;.it-panel{height:fit-content}}
+    @container(max-width:600px){#it-desk-v1 .it-shell{grid-template-columns:minmax(0,1fr)}#it-desk-v1 .it-sidebar{padding:12px 14px;border-right:0;border-bottom:1px solid var(--it-line);gap:12px}#it-desk-v1 .it-nav{display:flex;flex-wrap:wrap;gap:4px}#it-desk-v1 .it-nav button{padding:8px 10px}#it-desk-v1 .it-label,#it-desk-v1 .it-sidebar-foot{display:none}#it-desk-v1 .it-brand{font-size:14px}#it-desk-v1 .it-main{padding:18px 14px}#it-desk-v1 .it-topbar{padding:12px 14px}#it-desk-v1 .it-preview{padding:10px 14px}#it-desk-v1 .it-sideinfo{display:grid;grid-template-columns:minmax(0,1fr)}#it-desk-v1 .it-ticket{grid-template-columns:minmax(0,1fr);padding:16px}#it-desk-v1 .it-ticket&gt;.it-row{justify-content:space-between}#it-desk-v1 .it-panel{padding:16px}#it-desk-v1 .it-list-panel{padding:0}#it-desk-v1 .it-account-row{grid-template-columns:1fr 1fr}#it-desk-v1 h1{font-size:21px}#it-desk-v1 .it-preview select{width:100%}#it-desk-v1 .it-preview label{width:100%}#it-desk-v1 input,#it-desk-v1 select,#it-desk-v1 textarea{font-size:16px}}
+    @media(pointer:coarse){#it-desk-v1 button,#it-desk-v1 select,#it-desk-v1 input{min-height:44px}}
+  &lt;/style&gt;
+  &lt;div class=&quot;it-preview&quot;&gt;&lt;div&gt;&lt;span class=&quot;it-badge&quot;&gt;交互草图 · 示例数据&lt;/span&gt; &lt;small&gt;仅本次预览有效&lt;/small&gt;&lt;/div&gt;&lt;label&gt;预览身份 &lt;select id=&quot;it-persona&quot; aria-label=&quot;预览身份&quot;&gt;&lt;option value=&quot;E&quot;&gt;李明 · 工程师&lt;/option&gt;&lt;option value=&quot;A&quot;&gt;张三 · 员工&lt;/option&gt;&lt;option value=&quot;M&quot;&gt;王敏 · 管理员&lt;/option&gt;&lt;option value=&quot;F&quot;&gt;赵宁 · 工程师&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;
+  &lt;div class=&quot;it-shell&quot;&gt;
+    &lt;aside class=&quot;it-sidebar&quot;&gt;&lt;div class=&quot;it-brand&quot;&gt;&lt;span class=&quot;it-logo&quot;&gt;&lt;i data-lucide=&quot;tickets&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;div&gt;IT 服务台&lt;br&gt;&lt;small&gt;SERVICE DESK&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;it-label&quot;&gt;WORKSPACE&lt;/div&gt;&lt;nav class=&quot;it-nav&quot; id=&quot;it-nav&quot; aria-label=&quot;主导航&quot;&gt;&lt;/nav&gt;&lt;/div&gt;&lt;div class=&quot;it-sidebar-foot&quot;&gt;内部 IT 支持&lt;br&gt;让问题有回应，让处理可追溯。&lt;/div&gt;&lt;/aside&gt;
+    &lt;div class=&quot;it-body&quot;&gt;&lt;header class=&quot;it-topbar&quot;&gt;&lt;small&gt;企业内部 / &lt;span id=&quot;it-breadcrumb&quot;&gt;工单详情&lt;/span&gt;&lt;/small&gt;&lt;div class=&quot;it-user&quot; id=&quot;it-user&quot;&gt;&lt;/div&gt;&lt;/header&gt;&lt;div class=&quot;it-statusline&quot; id=&quot;it-statusline&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;&lt;main class=&quot;it-main&quot; id=&quot;it-content&quot;&gt;&lt;/main&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+  (() =&gt; {
+    const root=document.getElementById(&#x27;it-desk-v1&#x27;), content=root.querySelector(&#x27;#it-content&#x27;);
+    const people={A:{name:&#x27;张三&#x27;,role:&#x27;员工&#x27;,code:&#x27;00101&#x27;},B:{name:&#x27;周悦&#x27;,role:&#x27;员工&#x27;,code:&#x27;00102&#x27;},D:{name:&#x27;陈欣&#x27;,role:&#x27;员工&#x27;,code:&#x27;00103&#x27;,disabled:true},E:{name:&#x27;李明&#x27;,role:&#x27;工程师&#x27;,code:&#x27;IT001&#x27;},F:{name:&#x27;赵宁&#x27;,role:&#x27;工程师&#x27;,code:&#x27;IT002&#x27;},M:{name:&#x27;王敏&#x27;,role:&#x27;管理员&#x27;,code:&#x27;AD001&#x27;}};
+    const types=[&#x27;网络&#x27;,&#x27;账号登录故障&#x27;,&#x27;软件&#x27;,&#x27;硬件&#x27;,&#x27;其他&#x27;], priorities=[&#x27;低&#x27;,&#x27;普通&#x27;,&#x27;高&#x27;];
+    const stateNames={OPEN:&#x27;待处理&#x27;,PROCESSING:&#x27;处理中&#x27;,RESOLVED:&#x27;已解决，待确认&#x27;,CLOSED:&#x27;已关闭&#x27;,CANCELLED:&#x27;已取消&#x27;};
+    const data=[
+      {id:106,title:&#x27;VPN 无法连接，提示认证超时&#x27;,type:&#x27;网络&#x27;,priority:&#x27;高&#x27;,applicant:&#x27;A&#x27;,owner:&#x27;E&#x27;,former:[&#x27;F&#x27;],state:&#x27;PROCESSING&#x27;,started:true,description:&#x27;今天上午连接公司 VPN 时，一直提示“认证超时”。已重启电脑并切换手机热点，仍然无法连接。\n\n目前无法访问内部项目资料，烦请协助排查。&#x27;,attachment:true,replies:[{who:&#x27;E&#x27;,time:&#x27;09-06 09:35&#x27;,text:&#x27;已开始排查。请补充一下报错出现的时间，以及 VPN 客户端版本。您可以直接在这里回复，我会同时检查网关日志。&#x27;},{who:&#x27;A&#x27;,time:&#x27;09-06 09:42&#x27;,text:&#x27;大约从 9:10 开始，客户端版本是 7.2.1。切换网络后也是相同提示。&#x27;}],history:[{who:&#x27;A&#x27;,time:&#x27;09-06 09:18&#x27;,text:&#x27;创建工单&#x27;},{who:&#x27;M&#x27;,time:&#x27;09-06 09:21&#x27;,text:&#x27;分配给赵宁&#x27;},{who:&#x27;M&#x27;,time:&#x27;09-06 09:28&#x27;,text:&#x27;转派：赵宁 → 李明；原因：由网络方向工程师排查。&#x27;},{who:&#x27;E&#x27;,time:&#x27;09-06 09:32&#x27;,text:&#x27;开始处理：待处理 → 处理中&#x27;}]},
+      {id:105,title:&#x27;浏览器打开内部系统显示空白页&#x27;,type:&#x27;软件&#x27;,priority:&#x27;普通&#x27;,applicant:&#x27;A&#x27;,owner:&#x27;E&#x27;,former:[],state:&#x27;RESOLVED&#x27;,started:true,description:&#x27;内部系统登录后出现空白页，其他网页可以正常打开。&#x27;},
+      {id:104,title:&#x27;三楼共享打印机无法打印&#x27;,type:&#x27;硬件&#x27;,priority:&#x27;普通&#x27;,applicant:&#x27;B&#x27;,owner:null,former:[],state:&#x27;OPEN&#x27;,started:false,description:&#x27;已发送打印任务，但打印机没有响应，队列中显示脱机。&#x27;},
+      {id:103,title:&#x27;外接显示器间歇黑屏&#x27;,type:&#x27;硬件&#x27;,priority:&#x27;普通&#x27;,applicant:&#x27;A&#x27;,owner:&#x27;E&#x27;,former:[],state:&#x27;OPEN&#x27;,started:false,description:&#x27;连接扩展坞后，外接显示器每隔几分钟会黑屏一次。&#x27;},
+      {id:102,title:&#x27;邮件客户端无法接收新邮件&#x27;,type:&#x27;软件&#x27;,priority:&#x27;普通&#x27;,applicant:&#x27;A&#x27;,owner:&#x27;E&#x27;,former:[],state:&#x27;CLOSED&#x27;,started:true,description:&#x27;网页版可以收到邮件，电脑客户端不能自动同步。&#x27;},
+      {id:101,title:&#x27;重复提交：VPN 无法连接&#x27;,type:&#x27;网络&#x27;,priority:&#x27;普通&#x27;,applicant:&#x27;A&#x27;,owner:&#x27;F&#x27;,former:[],state:&#x27;CANCELLED&#x27;,started:false,description:&#x27;再次提交 VPN 连接问题。&#x27;},
+      {id:100,title:&#x27;电脑无法连接办公网络&#x27;,type:&#x27;网络&#x27;,priority:&#x27;普通&#x27;,applicant:&#x27;D&#x27;,owner:&#x27;F&#x27;,former:[],state:&#x27;PROCESSING&#x27;,started:true,description:&#x27;办公电脑网口指示灯正常，但无法访问网络。&#x27;},
+      {id:99,title:&#x27;开发工具启动时报错&#x27;,type:&#x27;软件&#x27;,priority:&#x27;低&#x27;,applicant:&#x27;E&#x27;,owner:&#x27;E&#x27;,former:[],state:&#x27;RESOLVED&#x27;,started:true,description:&#x27;本人工作电脑的开发工具升级后无法启动。&#x27;},
+      {id:98,title:&#x27;会议室投屏连接失败&#x27;,type:&#x27;硬件&#x27;,priority:&#x27;普通&#x27;,applicant:&#x27;B&#x27;,owner:&#x27;F&#x27;,former:[],state:&#x27;OPEN&#x27;,started:false,description:&#x27;电脑无法识别会议室投屏设备。&#x27;}
+    ];
+    const number=t=&gt;&#x27;IT-20260906-&#x27;+String(t.id).padStart(4,&#x27;0&#x27;);
+    const esc=v=&gt;String(v??&#x27;&#x27;).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g,c=&gt;({&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[c]));
+    data.forEach(t=&gt;{t.created=t.history?.[0]?.time||&#x27;09-06 09:&#x27;+String(Math.min(18,t.id-90)).padStart(2,&#x27;0&#x27;);t.updated=t.created;t.replies??=[];t.history??=[{who:t.applicant,time:t.created,text:&#x27;创建工单&#x27;}];t.solutions=[];
+      if(t.owner&amp;&amp;t.history.length===1)t.history.push({who:&#x27;M&#x27;,time:&#x27;09-06 09:22&#x27;,text:&#x27;分配给&#x27;+people[t.owner].name});
+      if(t.started&amp;&amp;t.history.length&lt;3)t.history.push({who:t.owner,time:&#x27;09-06 09:30&#x27;,text:&#x27;开始处理：待处理 → 处理中&#x27;});
+      if([&#x27;RESOLVED&#x27;,&#x27;CLOSED&#x27;].includes(t.state)){const solution={who:t.owner,time:&#x27;09-06 10:05&#x27;,text:t.id===105?&#x27;已清理损坏的站点缓存，并确认页面可正常加载。请重新打开系统验证。&#x27;:t.id===99?&#x27;已回退不兼容的扩展，工具可正常启动。&#x27;:&#x27;已重新配置邮件同步，客户端可正常接收邮件。&#x27;};t.solutions.push(solution);t.history.push({...solution,text:&#x27;提交解决结果：处理中 → 已解决，待确认&#x27;});t.updated=solution.time;}
+      if(t.state===&#x27;CLOSED&#x27;){t.closure={who:&#x27;A&#x27;,time:&#x27;09-06 10:20&#x27;,method:&#x27;申请人确认&#x27;,reason:&#x27;&#x27;};t.history.push({who:&#x27;A&#x27;,time:t.closure.time,text:&#x27;确认关闭：已解决，待确认 → 已关闭&#x27;});t.updated=t.closure.time;}
+      if(t.state===&#x27;CANCELLED&#x27;){t.cancel={who:&#x27;M&#x27;,time:&#x27;09-06 09:25&#x27;,category:&#x27;重复工单&#x27;,reason:&#x27;同一问题重复提交，继续跟进原工单。&#x27;,reference:&#x27;IT-20260906-0106&#x27;};t.history.push({who:&#x27;M&#x27;,time:t.cancel.time,text:&#x27;取消：重复工单；保留 IT-20260906-0106；同一问题重复提交，继续跟进原工单。&#x27;});t.updated=t.cancel.time;}
+      t.updated=[t.created,...t.history.map(h=&gt;h.time),...t.replies.map(r=&gt;r.time),...t.solutions.map(s=&gt;s.time)].sort().at(-1);
+    });
+    let user=&#x27;E&#x27;,page=&#x27;detail&#x27;,selected=106,scope=&#x27;current&#x27;,filter=&#x27;ALL&#x27;,query=&#x27;&#x27;,typeFilter=&#x27;ALL&#x27;,priorityFilter=&#x27;ALL&#x27;,ownerFilter=&#x27;ALL&#x27;,action=null,importMode=&#x27;initial&#x27;,pageIndex=0;
+    let clockMinute=0;const now=()=&gt;new Date(Date.UTC(2026,8,6,11,clockMinute++)).toISOString().slice(5,16).replace(&#x27;T&#x27;,&#x27; &#x27;);
+    const actor=()=&gt;people[user], admin=()=&gt;actor().role===&#x27;管理员&#x27;, engineer=()=&gt;actor().role===&#x27;工程师&#x27;;
+    const terminal=t=&gt;[&#x27;CLOSED&#x27;,&#x27;CANCELLED&#x27;].includes(t.state);
+    const canRead=t=&gt;!actor().disabled&amp;&amp;(admin()||t.applicant===user||t.owner===user||t.former.includes(user));
+    const canReply=t=&gt;canRead(t)&amp;&amp;!terminal(t)&amp;&amp;(admin()||t.applicant===user||t.owner===user);
+    const current=()=&gt;data.find(t=&gt;t.id===selected);
+    const status=t=&gt;t.state===&#x27;OPEN&#x27;?(t.owner?&#x27;待开始&#x27;:&#x27;待分配&#x27;):stateNames[t.state];
+    const badge=t=&gt;&#x27;&lt;span class=&quot;it-badge&quot; data-state=&quot;&#x27;+t.state+&#x27;&quot;&gt;&#x27;+status(t)+&#x27;&lt;/span&gt;&#x27;;
+    const icon=name=&gt;&#x27;&lt;i data-lucide=&quot;&#x27;+name+&#x27;&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&#x27;;
+    const button=(label,act,primary=false,extra=&#x27;&#x27;)=&gt;&#x27;&lt;button type=&quot;button&quot; class=&quot;it-button &#x27;+(primary?&#x27;it-primary&#x27;:&#x27;&#x27;)+&#x27;&quot; data-action=&quot;&#x27;+act+&#x27;&quot; &#x27;+extra+&#x27;&gt;&#x27;+label+&#x27;&lt;/button&gt;&#x27;;
+    const options=(values,chosen)=&gt;values.map(v=&gt;&#x27;&lt;option &#x27;+(v===chosen?&#x27;selected&#x27;:&#x27;&#x27;)+&#x27;&gt;&#x27;+esc(v)+&#x27;&lt;/option&gt;&#x27;).join(&#x27;&#x27;);
+    function notify(message){root.querySelector(&#x27;#it-statusline&#x27;).textContent=message;}
+    function addHistory(t,text){const time=now();t.history.push({who:user,time,text});t.updated=time;return time;}
+    function navPage(dest){page=dest;action=null;filter=&#x27;ALL&#x27;;query=&#x27;&#x27;;pageIndex=0;typeFilter=&#x27;ALL&#x27;;priorityFilter=&#x27;ALL&#x27;;ownerFilter=&#x27;ALL&#x27;;scope=dest===&#x27;mine&#x27;?&#x27;mine&#x27;:engineer()?&#x27;current&#x27;:&#x27;all&#x27;;render();}
+    function render(){
+      const nav=[[&#x27;mine&#x27;,&#x27;我的工单&#x27;,&#x27;inbox&#x27;]];if(engineer())nav.push([&#x27;work&#x27;,&#x27;处理工作台&#x27;,&#x27;list-checks&#x27;]);if(admin())nav.push([&#x27;manage&#x27;,&#x27;工单管理&#x27;,&#x27;tickets&#x27;],[&#x27;accounts&#x27;,&#x27;账号管理&#x27;,&#x27;users&#x27;]);nav.push([&#x27;create&#x27;,&#x27;创建工单&#x27;,&#x27;plus&#x27;]);
+      const activeNav=page===&#x27;detail&#x27;?(engineer()?&#x27;work&#x27;:admin()?&#x27;manage&#x27;:&#x27;mine&#x27;):page;
+      root.querySelector(&#x27;#it-nav&#x27;).innerHTML=nav.map(([key,label,ico])=&gt;&#x27;&lt;button type=&quot;button&quot; data-nav=&quot;&#x27;+key+&#x27;&quot; &#x27;+(activeNav===key?&#x27;aria-current=&quot;page&quot;&#x27;:&#x27;&#x27;)+&#x27;&gt;&#x27;+icon(ico)+label+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;);
+      root.querySelector(&#x27;#it-user&#x27;).innerHTML=&#x27;&lt;span class=&quot;it-avatar&quot;&gt;&#x27;+actor().name.slice(0,1)+&#x27;&lt;/span&gt;&lt;span&gt;&#x27;+actor().name+&#x27; &lt;small&gt; / &#x27;+actor().role+&#x27;&lt;/small&gt;&lt;/span&gt;&#x27;;
+      root.querySelector(&#x27;#it-breadcrumb&#x27;).textContent=page===&#x27;detail&#x27;?&#x27;工单详情&#x27;:page===&#x27;create&#x27;?&#x27;创建工单&#x27;:page===&#x27;accounts&#x27;?&#x27;账号管理&#x27;:page===&#x27;mine&#x27;?&#x27;我的工单&#x27;:engineer()?&#x27;处理工作台&#x27;:&#x27;工单管理&#x27;;
+      if(page===&#x27;detail&#x27;&amp;&amp;(!current()||!canRead(current()))){page=&#x27;mine&#x27;;scope=&#x27;mine&#x27;;}
+      if(page===&#x27;accounts&#x27;&amp;&amp;!admin()){page=&#x27;mine&#x27;;scope=&#x27;mine&#x27;;}
+      content.innerHTML=(page===&#x27;detail&#x27;?renderDetail():page===&#x27;create&#x27;?renderCreate():page===&#x27;accounts&#x27;?renderAccounts():renderList())+&#x27;&lt;footer class=&quot;it-footer&quot;&gt;&lt;span&gt;IT 服务台 · V1 设计评审&lt;/span&gt;&lt;span&gt;仅界面模拟 · 无后台连接&lt;/span&gt;&lt;/footer&gt;&#x27;;
+      if(globalThis.lucide)globalThis.lucide.createIcons({attrs:{width:16,height:16}});
+    }
+    function renderList(){
+      const title=page===&#x27;mine&#x27;?&#x27;我的工单&#x27;:engineer()?&#x27;处理工作台&#x27;:&#x27;工单管理&#x27;;
+      let tickets=data.filter(canRead).filter(t=&gt;page===&#x27;mine&#x27;?t.applicant===user:engineer()?(scope===&#x27;former&#x27;?t.former.includes(user)&amp;&amp;t.owner!==user:t.owner===user):true);
+      const count=tickets.length;
+      tickets=tickets.filter(t=&gt;(filter===&#x27;ALL&#x27;||(filter===&#x27;UNASSIGNED&#x27;?t.state===&#x27;OPEN&#x27;&amp;&amp;!t.owner:t.state===filter))&amp;&amp;(typeFilter===&#x27;ALL&#x27;||t.type===typeFilter)&amp;&amp;(priorityFilter===&#x27;ALL&#x27;||t.priority===priorityFilter)&amp;&amp;(ownerFilter===&#x27;ALL&#x27;||t.owner===ownerFilter)&amp;&amp;(!query||(query.toUpperCase().startsWith(&#x27;IT-&#x27;)?number(t)===query.toUpperCase():t.title.includes(query)))).sort((a,b)=&gt;b.id-a.id);
+      const total=tickets.length;pageIndex=Math.min(pageIndex,Math.max(0,Math.ceil(total/10)-1));tickets=tickets.slice(pageIndex*10,pageIndex*10+10);
+      const tabs=[[&#x27;ALL&#x27;,&#x27;全部&#x27;],...(admin()&amp;&amp;page!==&#x27;mine&#x27;?[[&#x27;UNASSIGNED&#x27;,&#x27;待分配&#x27;]]:[]),[&#x27;OPEN&#x27;,&#x27;待处理&#x27;],[&#x27;PROCESSING&#x27;,&#x27;处理中&#x27;],[&#x27;RESOLVED&#x27;,page===&#x27;mine&#x27;?&#x27;待我确认&#x27;:&#x27;待确认&#x27;],[&#x27;CLOSED&#x27;,&#x27;已关闭&#x27;],[&#x27;CANCELLED&#x27;,&#x27;已取消&#x27;]];
+      return &#x27;&lt;div class=&quot;it-heading&quot;&gt;&lt;div&gt;&lt;div class=&quot;it-kicker&quot;&gt;&#x27;+(page===&#x27;mine&#x27;?&#x27;MY REQUESTS&#x27;:&#x27;WORK QUEUE&#x27;)+&#x27;&lt;/div&gt;&lt;h1&gt;&#x27;+title+&#x27;&lt;/h1&gt;&lt;div class=&quot;it-sub&quot;&gt;&#x27;+(page===&#x27;mine&#x27;?&#x27;查看进展、补充信息，确认问题是否真正解决。&#x27;:engineer()?&#x27;从接手到解决，每一次处理都有记录。&#x27;:&#x27;将问题交给合适的人，跟进每一张工单。&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+button(icon(&#x27;plus&#x27;)+&#x27; 创建工单&#x27;,&#x27;new&#x27;,true)+&#x27;&lt;/div&gt;&#x27;+
+      (engineer()&amp;&amp;page!==&#x27;mine&#x27;?&#x27;&lt;div class=&quot;it-tabs&quot;&gt;&lt;button data-scope=&quot;current&quot; aria-pressed=&quot;&#x27;+(scope===&#x27;current&#x27;)+&#x27;&quot;&gt;当前负责&lt;/button&gt;&lt;button data-scope=&quot;former&quot; aria-pressed=&quot;&#x27;+(scope===&#x27;former&#x27;)+&#x27;&quot;&gt;曾经负责 · 只读&lt;/button&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+
+      &#x27;&lt;div class=&quot;it-tabs&quot;&gt;&#x27;+tabs.map(([key,label])=&gt;&#x27;&lt;button type=&quot;button&quot; data-filter=&quot;&#x27;+key+&#x27;&quot; aria-pressed=&quot;&#x27;+(filter===key)+&#x27;&quot;&gt;&#x27;+label+&#x27;&lt;/button&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+
+      &#x27;&lt;form id=&quot;it-search&quot; class=&quot;it-filters&quot;&gt;&lt;label&gt;&lt;span&gt;工单编号 / 标题&lt;/span&gt;&lt;input name=&quot;query&quot; value=&quot;&#x27;+esc(query)+&#x27;&quot; placeholder=&quot;完整编号或标题关键词&quot;&gt;&lt;/label&gt;&lt;label&gt;&lt;span&gt;问题分类&lt;/span&gt;&lt;select name=&quot;type&quot;&gt;&lt;option value=&quot;ALL&quot;&gt;全部分类&lt;/option&gt;&#x27;+options(types,typeFilter)+&#x27;&lt;/select&gt;&lt;/label&gt;&lt;label&gt;&lt;span&gt;优先级&lt;/span&gt;&lt;select name=&quot;priority&quot;&gt;&lt;option value=&quot;ALL&quot;&gt;全部优先级&lt;/option&gt;&#x27;+options(priorities,priorityFilter)+&#x27;&lt;/select&gt;&lt;/label&gt;&#x27;+(admin()?&#x27;&lt;label&gt;&lt;span&gt;负责人&lt;/span&gt;&lt;select name=&quot;owner&quot;&gt;&lt;option value=&quot;ALL&quot;&gt;全部负责人&lt;/option&gt;&#x27;+[&#x27;E&#x27;,&#x27;F&#x27;].map(u=&gt;&#x27;&lt;option value=&quot;&#x27;+u+&#x27;&quot; &#x27;+(ownerFilter===u?&#x27;selected&#x27;:&#x27;&#x27;)+&#x27;&gt;&#x27;+people[u].name+&#x27;&lt;/option&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/select&gt;&lt;/label&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;button class=&quot;it-button&quot; type=&quot;submit&quot;&gt;&#x27;+icon(&#x27;search&#x27;)+&#x27; 查询&lt;/button&gt;&lt;/form&gt;&#x27;+
+      &#x27;&lt;div class=&quot;it-panel it-list-panel&quot;&gt;&#x27;+(tickets.length?tickets.map(t=&gt;&#x27;&lt;article class=&quot;it-ticket&quot;&gt;&lt;div&gt;&lt;small&gt;&#x27;+number(t)+&#x27;&lt;/small&gt;&lt;div&gt;&lt;button class=&quot;it-link it-ticket-title&quot; data-ticket=&quot;&#x27;+t.id+&#x27;&quot;&gt;&#x27;+esc(t.title)+&#x27;&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;it-ticket-meta&quot;&gt;&lt;span&gt;&#x27;+t.type+&#x27; · &#x27;+t.priority+&#x27;优先级&lt;/span&gt;&lt;span&gt;申请人 &#x27;+people[t.applicant].name+&#x27;&lt;/span&gt;&lt;span&gt;负责人 &#x27;+(t.owner?people[t.owner].name:&#x27;未分配&#x27;)+&#x27;&lt;/span&gt;&lt;span&gt;更新 &#x27;+t.updated+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;it-row&quot;&gt;&#x27;+badge(t)+&#x27;&lt;button class=&quot;it-link&quot; data-ticket=&quot;&#x27;+t.id+&#x27;&quot;&gt;查看 →&lt;/button&gt;&lt;/div&gt;&lt;/article&gt;&#x27;).join(&#x27;&#x27;):&#x27;&lt;div class=&quot;it-empty&quot;&gt;&#x27;+icon(&#x27;inbox&#x27;)+&#x27;&lt;p&gt;没有符合条件的工单&lt;/p&gt;&lt;small&gt;可以更换筛选条件，或创建新的 IT 问题工单。&lt;/small&gt;&lt;/div&gt;&#x27;)+
+      &#x27;&lt;div class=&quot;it-list-footer&quot;&gt;&lt;span&gt;筛选结果 &#x27;+total+&#x27; 条 / 当前范围 &#x27;+count+&#x27; 条&lt;/span&gt;&lt;div class=&quot;it-row&quot;&gt;&#x27;+button(&#x27;上一页&#x27;,&#x27;prev&#x27;,false,pageIndex===0?&#x27;disabled&#x27;:&#x27;&#x27;)+&#x27;&lt;span&gt;第 &#x27;+(pageIndex+1)+&#x27; 页&lt;/span&gt;&#x27;+button(&#x27;下一页&#x27;,&#x27;next&#x27;,false,(pageIndex+1)*10&gt;=total?&#x27;disabled&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+    }
+    function actionsFor(t){const list=[];if(terminal(t))return list;if(t.owner===user&amp;&amp;engineer()){if(t.state===&#x27;OPEN&#x27;)list.push([&#x27;开始处理&#x27;,&#x27;start&#x27;,true]);if(t.state===&#x27;PROCESSING&#x27;)list.push([&#x27;提交解决结果&#x27;,&#x27;solve&#x27;,true]);}
+      if(t.applicant===user){if(t.state===&#x27;RESOLVED&#x27;)list.push([&#x27;确认关闭&#x27;,&#x27;close&#x27;,true],[&#x27;反馈未解决&#x27;,&#x27;return&#x27;,false]);if(t.state===&#x27;OPEN&#x27;&amp;&amp;!t.started)list.push([&#x27;取消工单&#x27;,&#x27;cancel&#x27;,false]);}
+      if(admin()){if([&#x27;OPEN&#x27;,&#x27;PROCESSING&#x27;].includes(t.state))list.push([t.owner?&#x27;转派工单&#x27;:&#x27;分配工程师&#x27;,&#x27;assign&#x27;,true],[&#x27;取消工单&#x27;,&#x27;cancel&#x27;,false]);if(t.state===&#x27;RESOLVED&#x27;)list.push([&#x27;管理员代关&#x27;,&#x27;adminclose&#x27;,t.applicant!==user]);list.push([&#x27;调整分类与优先级&#x27;,&#x27;classify&#x27;,false]);}return list.filter((x,i,a)=&gt;a.findIndex(v=&gt;v[1]===x[1])===i);}
+    function renderDetail(){const t=current(),allowed=actionsFor(t),isFormer=t.former.includes(user)&amp;&amp;t.owner!==user&amp;&amp;t.applicant!==user&amp;&amp;!admin();
+      const notice=terminal(t)?(t.state===&#x27;CLOSED&#x27;?&#x27;工单已关闭，内容与处理记录只读保留。&#x27;:&#x27;工单已取消，不代表问题已解决；原记录只读保留。&#x27;):isFormer?&#x27;你是历任负责人，可查看后续记录；当前由 &#x27;+people[t.owner].name+&#x27; 负责处理。&#x27;:t.state===&#x27;RESOLVED&#x27;?&#x27;工程师已提交解决结果，等待申请人验证；不会自动关闭。&#x27;:t.state===&#x27;PROCESSING&#x27;?&#x27;处理中 · 追问与补充信息直接在下方回复，不暂停处理。&#x27;:t.owner?&#x27;已分配给 &#x27;+people[t.owner].name+&#x27;，尚未开始处理。&#x27;:&#x27;工单已提交，等待管理员分配工程师。&#x27;;
+      const conclusion=t.closure||t.cancel;
+      return &#x27;&lt;div class=&quot;it-heading&quot;&gt;&lt;div&gt;&lt;button class=&quot;it-link&quot; data-action=&quot;back&quot;&gt;← 返回工单列表&lt;/button&gt;&lt;div class=&quot;it-kicker&quot; style=&quot;margin-top:14px&quot;&gt;&#x27;+number(t)+&#x27;&lt;/div&gt;&lt;h1&gt;&#x27;+esc(t.title)+&#x27;&lt;/h1&gt;&lt;div class=&quot;it-row&quot; style=&quot;margin-top:10px&quot;&gt;&#x27;+badge(t)+&#x27;&lt;small&gt;&#x27;+t.type+&#x27; / &#x27;+t.priority+&#x27;优先级&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;it-notice &#x27;+(terminal(t)||isFormer?&#x27;it-neutral&#x27;:t.state===&#x27;RESOLVED&#x27;?&#x27;it-warning&#x27;:&#x27;&#x27;)+&#x27;&quot;&gt;&#x27;+notice+&#x27;&lt;/div&gt;&#x27;+(action?renderAction(t):&#x27;&#x27;)+
+      &#x27;&lt;div class=&quot;it-detail&quot;&gt;&lt;div class=&quot;it-stack&quot;&gt;&lt;section class=&quot;it-panel&quot;&gt;&lt;div class=&quot;it-section-head&quot;&gt;&lt;h2&gt;问题描述&lt;/h2&gt;&lt;small&gt;原始内容 · 提交后保留&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;it-row&quot; style=&quot;margin-bottom:15px&quot;&gt;&lt;span class=&quot;it-avatar&quot;&gt;&#x27;+people[t.applicant].name[0]+&#x27;&lt;/span&gt;&lt;span&gt;&#x27;+people[t.applicant].name+(people[t.applicant].disabled?&#x27; &lt;small&gt;账号已停用&lt;/small&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/span&gt;&lt;small&gt;&#x27;+t.created+&#x27; 提交&lt;/small&gt;&lt;/div&gt;&lt;p class=&quot;it-copy&quot;&gt;&#x27;+esc(t.description)+&#x27;&lt;/p&gt;&#x27;+(t.attachment?&#x27;&lt;div class=&quot;it-attachment&quot;&gt;&lt;span class=&quot;it-thumb&quot;&gt;&#x27;+icon(&#x27;image&#x27;)+&#x27;&lt;/span&gt;&lt;div&gt;VPN 报错截图.png&lt;br&gt;&lt;small&gt;附件位置示意 · 未加载真实图片&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/section&gt;&#x27;+
+      (t.solutions.length?&#x27;&lt;section class=&quot;it-panel&quot;&gt;&lt;div class=&quot;it-section-head&quot;&gt;&lt;h2&gt;解决记录&lt;/h2&gt;&lt;small&gt;共 &#x27;+t.solutions.length+&#x27; 轮 · 历史不覆盖&lt;/small&gt;&lt;/div&gt;&#x27;+t.solutions.map((s,i)=&gt;&#x27;&lt;div class=&quot;it-solution&quot;&gt;&lt;h3&gt;第 &#x27;+(i+1)+&#x27; 轮解决说明&lt;/h3&gt;&lt;p class=&quot;it-copy&quot;&gt;&#x27;+esc(s.text)+&#x27;&lt;/p&gt;&lt;small&gt;&#x27;+people[s.who].name+&#x27; · &#x27;+s.time+&#x27;&lt;/small&gt;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/section&gt;&#x27;:&#x27;&#x27;)+
+      &#x27;&lt;section class=&quot;it-panel&quot;&gt;&lt;div class=&quot;it-section-head&quot;&gt;&lt;h2&gt;沟通记录 &lt;small&gt;&#x27;+t.replies.length+&#x27;&lt;/small&gt;&lt;/h2&gt;&lt;small&gt;参与者可见&lt;/small&gt;&lt;/div&gt;&lt;div&gt;&#x27;+(t.replies.length?t.replies.map(r=&gt;&#x27;&lt;div class=&quot;it-message&quot;&gt;&lt;span class=&quot;it-avatar&quot;&gt;&#x27;+people[r.who].name[0]+&#x27;&lt;/span&gt;&lt;div&gt;&lt;div class=&quot;it-row&quot;&gt;&lt;span&gt;&#x27;+people[r.who].name+&#x27;&lt;/span&gt;&lt;small&gt;&#x27;+people[r.who].role+&#x27; · &#x27;+r.time+&#x27;&lt;/small&gt;&lt;/div&gt;&lt;p class=&quot;it-copy&quot;&gt;&#x27;+esc(r.text)+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&#x27;).join(&#x27;&#x27;):&#x27;&lt;p class=&quot;it-sub&quot;&gt;暂无沟通记录。&lt;/p&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;+(canReply(t)?&#x27;&lt;form class=&quot;it-compose&quot; id=&quot;it-reply&quot;&gt;&lt;label for=&quot;it-reply-text&quot;&gt;&#x27;+(t.owner===user?&#x27;追问或记录处理进展&#x27;:&#x27;补充信息 / 回复&#x27;)+&#x27;&lt;/label&gt;&lt;textarea id=&quot;it-reply-text&quot; name=&quot;text&quot; maxlength=&quot;10000&quot; placeholder=&quot;描述需要补充的信息或当前进展…&quot; required&gt;&lt;/textarea&gt;&lt;small&gt;申请人、当前及历任负责人、管理员可见。发送后不可修改。&lt;/small&gt;&lt;div class=&quot;it-row&quot; style=&quot;justify-content:space-between;margin-top:12px&quot;&gt;&lt;small&gt;&#x27;+icon(&#x27;paperclip&#x27;)+&#x27; 截图入口（本轮未实现）&lt;/small&gt;&lt;button class=&quot;it-button it-primary&quot; type=&quot;submit&quot;&gt;发送回复 &#x27;+icon(&#x27;arrow-up&#x27;)+&#x27;&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;it-error&quot; role=&quot;alert&quot;&gt;&lt;/div&gt;&lt;/form&gt;&#x27;:&#x27;&lt;div class=&quot;it-notice it-neutral&quot; style=&quot;margin:16px 0 0&quot;&gt;&#x27;+(isFormer?&#x27;历任负责人只读，不能发送回复。&#x27;:&#x27;工单已结束，无法新增回复或附件。&#x27;)+&#x27;&lt;/div&gt;&#x27;)+&#x27;&lt;/section&gt;&lt;/div&gt;&#x27;+
+      &#x27;&lt;aside class=&quot;it-stack it-sideinfo&quot;&gt;&lt;section class=&quot;it-panel&quot;&gt;&lt;div class=&quot;it-section-head&quot;&gt;&lt;h2&gt;工单信息&lt;/h2&gt;&lt;/div&gt;&lt;dl class=&quot;it-props&quot;&gt;&lt;div&gt;&lt;dt&gt;当前负责人&lt;/dt&gt;&lt;dd&gt;&#x27;+(t.owner?people[t.owner].name+&#x27; · 工程师&#x27;:&#x27;尚未分配&#x27;)+&#x27;&lt;/dd&gt;&lt;/div&gt;&lt;div&gt;&lt;dt&gt;申请人&lt;/dt&gt;&lt;dd&gt;&#x27;+people[t.applicant].name+(people[t.applicant].disabled?&#x27;（已停用）&#x27;:&#x27;&#x27;)+&#x27;&lt;/dd&gt;&lt;/div&gt;&lt;div&gt;&lt;dt&gt;创建时间&lt;/dt&gt;&lt;dd&gt;&#x27;+t.created+&#x27;&lt;/dd&gt;&lt;/div&gt;&lt;div&gt;&lt;dt&gt;最近更新&lt;/dt&gt;&lt;dd&gt;&#x27;+t.updated+&#x27;&lt;/dd&gt;&lt;/div&gt;&lt;/dl&gt;&#x27;+(allowed.length?&#x27;&lt;hr class=&quot;it-rule&quot;&gt;&lt;h3&gt;当前操作&lt;/h3&gt;&lt;div class=&quot;it-actions&quot;&gt;&#x27;+allowed.map(([label,key,main])=&gt;button(label,key,main)).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;:&#x27;&#x27;)+(conclusion?&#x27;&lt;hr class=&quot;it-rule&quot;&gt;&lt;h3&gt;&#x27;+ (t.closure?&#x27;关闭记录&#x27;:&#x27;取消记录&#x27;)+&#x27;&lt;/h3&gt;&lt;dl class=&quot;it-props&quot; style=&quot;margin-top:12px&quot;&gt;&lt;div&gt;&lt;dt&gt;实际操作人 / 时间&lt;/dt&gt;&lt;dd&gt;&#x27;+people[conclusion.who].name+&#x27; / &#x27;+conclusion.time+&#x27;&lt;/dd&gt;&lt;/div&gt;&lt;div&gt;&lt;dt&gt;&#x27;+(t.closure?&#x27;关闭方式&#x27;:&#x27;取消类别&#x27;)+&#x27;&lt;/dt&gt;&lt;dd&gt;&#x27;+esc(conclusion.method||conclusion.category)+&#x27;&lt;/dd&gt;&lt;/div&gt;&#x27;+(conclusion.reason?&#x27;&lt;div&gt;&lt;dt&gt;原因&lt;/dt&gt;&lt;dd&gt;&#x27;+esc(conclusion.reason)+&#x27;&lt;/dd&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+(conclusion.reference?&#x27;&lt;div&gt;&lt;dt&gt;保留工单编号&lt;/dt&gt;&lt;dd&gt;&#x27;+esc(conclusion.reference)+&#x27;&lt;/dd&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/dl&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/section&gt;&lt;section class=&quot;it-panel&quot;&gt;&lt;details open&gt;&lt;summary&gt;操作历史 &lt;small&gt;&#x27;+t.history.length+&#x27;&lt;/small&gt;&lt;/summary&gt;&lt;ol class=&quot;it-timeline&quot;&gt;&#x27;+[...t.history].reverse().map(h=&gt;&#x27;&lt;li&gt;&lt;small&gt;&#x27;+h.time+&#x27; · &#x27;+people[h.who].name+&#x27;&lt;/small&gt;&lt;div&gt;&#x27;+esc(h.text)+&#x27;&lt;/div&gt;&lt;/li&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/ol&gt;&lt;/details&gt;&lt;/section&gt;&lt;/aside&gt;&lt;/div&gt;&#x27;;
+    }
+    function renderAction(t){const labels={assign:t.owner?&#x27;转派工单&#x27;:&#x27;分配工程师&#x27;,solve:&#x27;提交解决结果&#x27;,return:&#x27;反馈未解决&#x27;,close:&#x27;确认关闭&#x27;,adminclose:&#x27;管理员代关&#x27;,cancel:&#x27;取消工单&#x27;,classify:&#x27;调整分类与优先级&#x27;};let fields=&#x27;&#x27;;
+      if(action===&#x27;assign&#x27;)fields=&#x27;&lt;label&gt;&lt;span&gt;新的负责人&lt;/span&gt;&lt;select name=&quot;owner&quot;&gt;&#x27;+[&#x27;E&#x27;,&#x27;F&#x27;].filter(u=&gt;u!==t.owner).map(u=&gt;&#x27;&lt;option value=&quot;&#x27;+u+&#x27;&quot;&gt;&#x27;+people[u].name+&#x27; · 工程师&lt;/option&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/select&gt;&lt;/label&gt;&#x27;+(t.owner?reason(&#x27;转派原因&#x27;,&#x27;说明为什么需要交接给新负责人&#x27;):&#x27;&#x27;);
+      if(action===&#x27;solve&#x27;)fields=reason(&#x27;解决说明&#x27;,&#x27;填写排查结果、处理措施，以及申请人如何验证&#x27;);
+      if(action===&#x27;return&#x27;)fields=reason(&#x27;仍未解决的原因&#x27;,&#x27;说明验证结果与仍存在的问题&#x27;);
+      if(action===&#x27;close&#x27;)fields=&#x27;&lt;div class=&quot;it-notice&quot;&gt;确认问题已解决后关闭。关闭后只读保留，不再重新打开。&lt;/div&gt;&#x27;;
+      if(action===&#x27;adminclose&#x27;)fields=reason(&#x27;核实情况 / 代关理由&#x27;,&#x27;说明已核实的处理结果，以及为何由管理员代关&#x27;)+&#x27;&lt;small&gt;记录为管理员代关，不等同于申请人确认或满意。&lt;/small&gt;&#x27;;
+      if(action===&#x27;cancel&#x27;){const categories=admin()?[&#x27;申请人撤回&#x27;,&#x27;重复工单&#x27;,&#x27;超出 IT 受理范围&#x27;,...(people[t.applicant].disabled?[&#x27;申请人停用后无需处理&#x27;]:[])]:[&#x27;申请人撤回&#x27;];fields=&#x27;&lt;label&gt;&lt;span&gt;取消原因类别&lt;/span&gt;&lt;select name=&quot;category&quot;&gt;&#x27;+options(categories)+&#x27;&lt;/select&gt;&lt;/label&gt;&#x27;+reason(&#x27;取消说明&#x27;,&#x27;填写实际原因；已开始处理的撤回，应先核实申请人的撤回回复&#x27;)+&#x27;&lt;label&gt;&lt;span&gt;保留工单编号（重复工单时必填）&lt;/span&gt;&lt;input name=&quot;reference&quot; placeholder=&quot;IT-20260906-0106&quot;&gt;&lt;/label&gt;&lt;label&gt;&lt;span&gt;建议联系的部门或渠道（超范围时必填）&lt;/span&gt;&lt;input name=&quot;contact&quot; placeholder=&quot;例如：行政服务台&quot;&gt;&lt;/label&gt;&lt;small&gt;描述不清、处理困难或暂未回复，不能作为取消原因。&lt;/small&gt;&#x27;;}
+      if(action===&#x27;classify&#x27;)fields=&#x27;&lt;label&gt;&lt;span&gt;问题分类&lt;/span&gt;&lt;select name=&quot;type&quot;&gt;&#x27;+options(types,t.type)+&#x27;&lt;/select&gt;&lt;/label&gt;&lt;label&gt;&lt;span&gt;优先级&lt;/span&gt;&lt;select name=&quot;priority&quot;&gt;&#x27;+options(priorities,t.priority)+&#x27;&lt;/select&gt;&lt;/label&gt;&#x27;;
+      return &#x27;&lt;section class=&quot;it-panel it-action-form&quot;&gt;&lt;div class=&quot;it-section-head&quot;&gt;&lt;h2&gt;&#x27;+labels[action]+&#x27;&lt;/h2&gt;&#x27;+button(&#x27;收起&#x27;,&#x27;dismiss&#x27;)+&#x27;&lt;/div&gt;&lt;form id=&quot;it-action-form&quot; class=&quot;it-form&quot;&gt;&#x27;+fields+&#x27;&lt;div class=&quot;it-error&quot; role=&quot;alert&quot;&gt;&lt;/div&gt;&lt;div class=&quot;it-form-actions&quot;&gt;&lt;button class=&quot;it-button it-primary&quot; type=&quot;submit&quot;&gt;&#x27;+labels[action]+&#x27;&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;&lt;/section&gt;&#x27;;
+    }
+    function reason(label,placeholder){return &#x27;&lt;label&gt;&lt;span&gt;&#x27;+label+&#x27; &lt;small&gt;必填&lt;/small&gt;&lt;/span&gt;&lt;textarea name=&quot;reason&quot; required placeholder=&quot;&#x27;+placeholder+&#x27;&quot;&gt;&lt;/textarea&gt;&lt;/label&gt;&#x27;;}
+    function renderCreate(){return &#x27;&lt;div class=&quot;it-heading&quot;&gt;&lt;div&gt;&lt;div class=&quot;it-kicker&quot;&gt;NEW REQUEST&lt;/div&gt;&lt;h1&gt;创建 IT 工单&lt;/h1&gt;&lt;div class=&quot;it-sub&quot;&gt;把问题说清楚，剩下的交给服务台。&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;it-detail&quot;&gt;&lt;section class=&quot;it-panel&quot;&gt;&lt;form id=&quot;it-create&quot; class=&quot;it-form&quot;&gt;&lt;label&gt;&lt;span&gt;问题标题 &lt;small&gt;必填 · 最多 100 字符&lt;/small&gt;&lt;/span&gt;&lt;input name=&quot;title&quot; placeholder=&quot;例如：VPN 无法连接，提示认证超时&quot; required&gt;&lt;/label&gt;&lt;label&gt;&lt;span&gt;问题分类 &lt;small&gt;必填&lt;/small&gt;&lt;/span&gt;&lt;select name=&quot;type&quot;&gt;&#x27;+options(types)+&#x27;&lt;/select&gt;&lt;/label&gt;&lt;label&gt;&lt;span&gt;问题描述 &lt;small&gt;必填 · 最多 5000 字符&lt;/small&gt;&lt;/span&gt;&lt;textarea name=&quot;description&quot; style=&quot;min-height:170px&quot; placeholder=&quot;遇到了什么问题？什么时候发生？已经尝试了哪些方法？&quot; required&gt;&lt;/textarea&gt;&lt;/label&gt;&lt;div&gt;&lt;span&gt;截图附件 &lt;small&gt;选填&lt;/small&gt;&lt;/span&gt;&lt;div class=&quot;it-upload&quot; style=&quot;margin-top:8px&quot;&gt;&#x27;+icon(&#x27;image-plus&#x27;)+&#x27;&lt;strong&gt;选择截图 / 拖拽到此处&lt;/strong&gt;&lt;small&gt;PNG、JPG/JPEG · 最多 5 张 · 每张不超过 5 MB&lt;br&gt;本轮仅展示上传位置，不读取真实文件&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;it-error&quot; role=&quot;alert&quot;&gt;&lt;/div&gt;&lt;div class=&quot;it-form-actions&quot;&gt;&#x27;+button(&#x27;返回列表&#x27;,&#x27;back&#x27;)+&#x27;&lt;button class=&quot;it-button it-primary&quot; type=&quot;submit&quot;&gt;提交工单 &#x27;+icon(&#x27;arrow-right&#x27;)+&#x27;&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;&lt;/section&gt;&lt;aside class=&quot;it-panel&quot;&gt;&lt;h2&gt;提交之后&lt;/h2&gt;&lt;ol class=&quot;it-timeline&quot;&gt;&lt;li&gt;管理员分配工程师&lt;/li&gt;&lt;li&gt;工程师处理与沟通&lt;/li&gt;&lt;li&gt;你验证结果并确认关闭&lt;/li&gt;&lt;/ol&gt;&lt;hr class=&quot;it-rule&quot;&gt;&lt;dl class=&quot;it-props&quot;&gt;&lt;div&gt;&lt;dt&gt;申请人&lt;/dt&gt;&lt;dd&gt;&#x27;+actor().name+&#x27;&lt;/dd&gt;&lt;/div&gt;&lt;div&gt;&lt;dt&gt;默认优先级&lt;/dt&gt;&lt;dd&gt;普通 · 管理员可调整&lt;/dd&gt;&lt;/div&gt;&lt;/dl&gt;&lt;div class=&quot;it-sub&quot; style=&quot;margin-top:20px&quot;&gt;请勿填写账号密码等敏感信息。提交后原始描述保留，补充内容请通过回复发送。&lt;/div&gt;&lt;/aside&gt;&lt;/div&gt;&#x27;;}
+    function renderAccounts(){return &#x27;&lt;div class=&quot;it-heading&quot;&gt;&lt;div&gt;&lt;div class=&quot;it-kicker&quot;&gt;PEOPLE &amp; ACCESS&lt;/div&gt;&lt;h1&gt;账号管理&lt;/h1&gt;&lt;div class=&quot;it-sub&quot;&gt;员工批量导入，工程师与管理员按需单个创建。&lt;/div&gt;&lt;/div&gt;&#x27;+button(icon(&#x27;user-plus&#x27;)+&#x27; 单个新增&#x27;,&#x27;account-help&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;it-notice it-neutral&quot;&gt;账号管理仅展示布局与示例反馈，新增、重置、停用及真实文件导入尚未实现。&lt;/div&gt;&lt;section class=&quot;it-panel&quot;&gt;&lt;div class=&quot;it-section-head&quot;&gt;&lt;h2&gt;企业账号&lt;/h2&gt;&lt;small&gt;&#x27;+Object.keys(people).length+&#x27; 个示例账号&lt;/small&gt;&lt;/div&gt;&#x27;+Object.entries(people).map(([id,p])=&gt;&#x27;&lt;div class=&quot;it-account-row&quot;&gt;&lt;div class=&quot;it-user&quot;&gt;&lt;span class=&quot;it-avatar&quot;&gt;&#x27;+p.name[0]+&#x27;&lt;/span&gt;&lt;div&gt;&#x27;+p.name+&#x27;&lt;br&gt;&lt;small&gt;&#x27;+p.code+&#x27;&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;span&gt;&#x27;+p.role+&#x27;&lt;/span&gt;&lt;small&gt;&#x27;+(p.disabled?&#x27;已停用&#x27;:&#x27;正常&#x27;)+&#x27;&lt;/small&gt;&lt;button class=&quot;it-link&quot; data-action=&quot;account-help&quot;&gt;管理说明&lt;/button&gt;&lt;/div&gt;&#x27;).join(&#x27;&#x27;)+&#x27;&lt;/section&gt;&lt;section class=&quot;it-panel it-import&quot;&gt;&lt;div class=&quot;it-import-head&quot;&gt;&lt;span class=&quot;it-thumb&quot;&gt;&#x27;+icon(&#x27;file-spreadsheet&#x27;)+&#x27;&lt;/span&gt;&lt;div&gt;&lt;h2&gt;Excel 批量创建员工&lt;/h2&gt;&lt;small&gt;.xlsx 模板 · 最多 500 人 / 5 MB&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;it-upload&quot;&gt;工号（文本） · 姓名 · 邮箱（选填）&lt;br&gt;&lt;small&gt;只创建普通员工，不覆盖已有账号，不通过角色列授予权限。&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;it-row&quot; style=&quot;margin-top:16px&quot;&gt;&#x27;+button(&#x27;模板说明&#x27;,&#x27;template&#x27;)+button(&#x27;预览校验失败&#x27;,&#x27;import-error&#x27;)+button(&#x27;预览导入成功&#x27;,&#x27;import-success&#x27;,true)+&#x27;&lt;/div&gt;&lt;div class=&quot;it-import-result&quot;&gt;&#x27;+(importMode===&#x27;error&#x27;?&#x27;&lt;div class=&quot;it-notice it-warning&quot;&gt;发现 2 处问题。本次未创建任何账号，请修正后重新导入。&lt;/div&gt;&lt;table class=&quot;it-sample-table&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Excel 行号&lt;/th&gt;&lt;th&gt;字段&lt;/th&gt;&lt;th&gt;错误原因&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;第 3 行&lt;/td&gt;&lt;td&gt;工号&lt;/td&gt;&lt;td&gt;00101 已存在&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;第 5 行&lt;/td&gt;&lt;td&gt;姓名&lt;/td&gt;&lt;td&gt;必填内容为空&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&#x27;:importMode===&#x27;success&#x27;?&#x27;&lt;div class=&quot;it-notice&quot;&gt;示例结果：校验通过，成功创建 3 个普通员工账号。&lt;/div&gt;&lt;p class=&quot;it-sub&quot;&gt;正式实现将在此一次性交付账号凭据文件。临时密码分别交付，首次登录强制修改；丢失后只能重置。&lt;/p&gt;&lt;small&gt;本次预览没有创建真实账号，也不生成或下载密码。&lt;/small&gt;&#x27;:&#x27;&lt;p class=&quot;it-sub&quot;&gt;先校验整批名单；有错误则整批不创建，成功时整批创建。&lt;/p&gt;&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+    root.addEventListener(&#x27;change&#x27;,event=&gt;{if(event.target.id===&#x27;it-persona&#x27;){user=event.target.value;action=null;notify(&#x27;已切换预览身份；仅用于设计评审，不是实际账号登录。&#x27;);if(page===&#x27;detail&#x27;&amp;&amp;canRead(current()))render();else navPage(engineer()?&#x27;work&#x27;:admin()?&#x27;manage&#x27;:&#x27;mine&#x27;);}});
+    root.addEventListener(&#x27;click&#x27;,event=&gt;{const el=event.target.closest(&#x27;button&#x27;);if(!el||el.disabled)return;
+      if(el.dataset.nav){navPage(el.dataset.nav);return;}if(el.dataset.ticket){selected=Number(el.dataset.ticket);page=&#x27;detail&#x27;;action=null;render();return;}
+      if(el.dataset.filter){filter=el.dataset.filter;pageIndex=0;render();return;}if(el.dataset.scope){scope=el.dataset.scope;pageIndex=0;render();return;}
+      const key=el.dataset.action;if(!key)return;
+      if(key===&#x27;new&#x27;){navPage(&#x27;create&#x27;);return;}if(key===&#x27;back&#x27;){navPage(engineer()?&#x27;work&#x27;:admin()?&#x27;manage&#x27;:&#x27;mine&#x27;);return;}if(key===&#x27;prev&#x27;||key===&#x27;next&#x27;){pageIndex+=key===&#x27;next&#x27;?1:-1;render();return;}
+      if(key===&#x27;account-help&#x27;){notify(&#x27;正式版：单个新增可选择固定角色；重置后强制改密；停用工程师前先交接未结工单。本轮未执行账号操作。&#x27;);return;}
+      if(key===&#x27;template&#x27;){notify(&#x27;模板字段：工号（文本、必填）、姓名（必填）、邮箱（选填）。本轮仅展示字段说明，不提供实际下载。&#x27;);return;}
+      if(key.startsWith(&#x27;import-&#x27;)){importMode=key===&#x27;import-error&#x27;?&#x27;error&#x27;:&#x27;success&#x27;;render();return;}
+      if(key===&#x27;dismiss&#x27;){action=null;render();return;}
+      const t=current();if(!actionsFor(t).some(a=&gt;a[1]===key)){notify(&#x27;当前身份或状态不允许此操作。&#x27;);return;}
+      if(key===&#x27;start&#x27;){t.state=&#x27;PROCESSING&#x27;;t.started=true;addHistory(t,&#x27;开始处理：待处理 → 处理中&#x27;);notify(&#x27;已开始处理。可直接追问或继续排查。&#x27;);render();return;}
+      action=key;render();content.querySelector(&#x27;#it-action-form textarea, #it-action-form select, #it-action-form button&#x27;)?.focus();
+    });
+    function fail(form,text){form.querySelector(&#x27;.it-error&#x27;).textContent=text;}
+    const validText=(s,max=5000)=&gt;s.trim().length&gt;0&amp;&amp;Array.from(s.trim()).length&lt;=max;
+    root.addEventListener(&#x27;submit&#x27;,event=&gt;{event.preventDefault();const form=event.target,fd=new FormData(form),v=key=&gt;String(fd.get(key)||&#x27;&#x27;).trim();
+      if(form.id===&#x27;it-search&#x27;){query=v(&#x27;query&#x27;);typeFilter=v(&#x27;type&#x27;);priorityFilter=v(&#x27;priority&#x27;);ownerFilter=v(&#x27;owner&#x27;)||&#x27;ALL&#x27;;pageIndex=0;render();return;}
+      if(form.id===&#x27;it-create&#x27;){if(!validText(v(&#x27;title&#x27;),100)||!validText(v(&#x27;description&#x27;)))return fail(form,&#x27;标题需为 1～100 字符，描述需为 1～5000 字符，不能只有空白。&#x27;);const time=now();const t={id:Math.max(...data.map(t=&gt;t.id))+1,title:v(&#x27;title&#x27;),description:v(&#x27;description&#x27;),type:v(&#x27;type&#x27;),priority:&#x27;普通&#x27;,applicant:user,owner:null,former:[],state:&#x27;OPEN&#x27;,started:false,created:time,updated:time,replies:[],solutions:[],history:[{who:user,time,text:&#x27;创建工单&#x27;}]};data.push(t);selected=t.id;page=&#x27;detail&#x27;;notify(&#x27;示例工单已创建，等待管理员分配。仅本次预览有效。&#x27;);render();return;}
+      const t=current();if(form.id===&#x27;it-reply&#x27;){if(!canReply(t))return fail(form,&#x27;当前不可回复。&#x27;);if(!validText(v(&#x27;text&#x27;)))return fail(form,&#x27;回复需为 1～5000 字符，不能只有空白。&#x27;);const time=now();t.replies.push({who:user,time,text:v(&#x27;text&#x27;)});t.updated=time;notify(&#x27;回复已追加，工单状态未改变。&#x27;);render();return;}
+      if(form.id!==&#x27;it-action-form&#x27;)return;
+      if(!actionsFor(t).some(a=&gt;a[1]===action))return fail(form,&#x27;状态或负责人已变化，请刷新后重新操作。&#x27;);
+      const reasonText=v(&#x27;reason&#x27;),old=stateNames[t.state];
+      if([&#x27;solve&#x27;,&#x27;return&#x27;,&#x27;adminclose&#x27;,&#x27;cancel&#x27;].includes(action)||(action===&#x27;assign&#x27;&amp;&amp;t.owner)){if(!validText(reasonText))return fail(form,&#x27;说明需为 1～5000 字符，不能只有空白。&#x27;);}
+      if(action===&#x27;assign&#x27;){const target=v(&#x27;owner&#x27;);if(![&#x27;E&#x27;,&#x27;F&#x27;].includes(target)||target===t.owner)return fail(form,&#x27;请选择另一位有效工程师。&#x27;);const previous=t.owner;if(previous&amp;&amp;!t.former.includes(previous))t.former.push(previous);t.owner=target;t.state=&#x27;OPEN&#x27;;addHistory(t,(previous?&#x27;转派：&#x27;+people[previous].name+&#x27; → &#x27;:&#x27;分配给 &#x27;)+people[target].name+(previous?&#x27;；原因：&#x27;+reasonText:&#x27;&#x27;)+&#x27;；状态：&#x27;+old+&#x27; → 待处理&#x27;);}
+      if(action===&#x27;solve&#x27;){t.state=&#x27;RESOLVED&#x27;;const time=addHistory(t,&#x27;提交第 &#x27;+(t.solutions.length+1)+&#x27; 轮解决结果：处理中 → 已解决，待确认&#x27;);t.solutions.push({who:user,time,text:reasonText});}
+      if(action===&#x27;return&#x27;){t.state=&#x27;PROCESSING&#x27;;addHistory(t,&#x27;反馈未解决：已解决，待确认 → 处理中；原因：&#x27;+reasonText);}
+      if(action===&#x27;close&#x27;||action===&#x27;adminclose&#x27;){const method=action===&#x27;close&#x27;?&#x27;申请人确认&#x27;:&#x27;管理员代关&#x27;;t.state=&#x27;CLOSED&#x27;;const time=addHistory(t,method+&#x27;：已解决，待确认 → 已关闭&#x27;+(reasonText?&#x27;；理由：&#x27;+reasonText:&#x27;&#x27;));t.closure={who:user,time,method,reason:reasonText};}
+      if(action===&#x27;classify&#x27;){const prev=t.type+&#x27; / &#x27;+t.priority;t.type=v(&#x27;type&#x27;);t.priority=v(&#x27;priority&#x27;);if(prev!==t.type+&#x27; / &#x27;+t.priority)addHistory(t,&#x27;调整分类与优先级：&#x27;+prev+&#x27; → &#x27;+t.type+&#x27; / &#x27;+t.priority);}
+      if(action===&#x27;cancel&#x27;){const category=v(&#x27;category&#x27;),reference=v(&#x27;reference&#x27;).toUpperCase();let detail=reasonText;
+        if(category===&#x27;重复工单&#x27;&amp;&amp;!data.some(other=&gt;number(other)===reference&amp;&amp;other.id!==t.id&amp;&amp;other.state!==&#x27;CANCELLED&#x27;))return fail(form,&#x27;请输入另一张存在且未取消的保留工单完整编号。&#x27;);
+        if(category===&#x27;超出 IT 受理范围&#x27;){if(!v(&#x27;contact&#x27;))return fail(form,&#x27;超范围取消需填写建议联系的部门或渠道。&#x27;);detail+=&#x27;；建议联系：&#x27;+v(&#x27;contact&#x27;);}
+        if(category===&#x27;申请人停用后无需处理&#x27;&amp;&amp;!people[t.applicant].disabled)return fail(form,&#x27;仅适用于申请人已停用且经管理员核实无需处理的工单。&#x27;);
+        // 撤回意愿与事实由管理员核实，不用关键词推断用户真实意愿。
+        t.state=&#x27;CANCELLED&#x27;;const time=addHistory(t,&#x27;取消：&#x27;+category+&#x27;；&#x27;+detail+(category===&#x27;重复工单&#x27;?&#x27;；保留 &#x27;+reference:&#x27;&#x27;));t.cancel={who:user,time,category,reason:detail,reference:category===&#x27;重复工单&#x27;?reference:&#x27;&#x27;};
+      }
+      action=null;notify(&#x27;示例操作已完成，相关结果与历史已更新。&#x27;);render();
+    });
+    render();
+    const design={density:&#x27;舒适&#x27;,tone:&#x27;青绿&#x27;,radius:14};
+    function applyDesign(){root.style.setProperty(&#x27;--it-pad&#x27;,design.density===&#x27;紧凑&#x27;?&#x27;16px&#x27;:&#x27;22px&#x27;);root.style.setProperty(&#x27;--it-radius&#x27;,design.radius+&#x27;px&#x27;);root.style.setProperty(&#x27;--it-accent&#x27;,design.tone===&#x27;青绿&#x27;?&#x27;light-dark(#087c70,#72d9c7)&#x27;:&#x27;light-dark(#345cb0,#a9c4ff)&#x27;);root.style.setProperty(&#x27;--it-tint&#x27;,design.tone===&#x27;青绿&#x27;?&#x27;light-dark(#e8f5f1,#183c39)&#x27;:&#x27;light-dark(#edf2fc,#243653)&#x27;);}
+    if(globalThis.Tweak){const tweak=new globalThis.Tweak({container:root,onChange:applyDesign});tweak.addSelect(design,&#x27;density&#x27;,{label:&#x27;信息密度&#x27;,options:[&#x27;舒适&#x27;,&#x27;紧凑&#x27;]});tweak.addSelect(design,&#x27;tone&#x27;,{label:&#x27;强调色方向&#x27;,options:[&#x27;青绿&#x27;,&#x27;蓝色&#x27;]});tweak.addSlider(design,&#x27;radius&#x27;,{label:&#x27;圆角&#x27;,min:6,max:18,unit:&#x27;px&#x27;});}
+  })();
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerdown&quot;, handlePointer);
+    document.removeEventListener(&quot;pointercancel&quot;, handlePointer);
+    document.removeEventListener(&quot;click&quot;, handleTouchClick);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerdown&quot;, handlePointer);
+  document.addEventListener(&quot;pointercancel&quot;, handlePointer);
+  document.addEventListener(&quot;click&quot;, handleTouchClick);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-tabs&quot;&gt;
+(() =&gt; {
+  const selector = &#x27;.nav[role=&quot;tablist&quot;] [role=&quot;tab&quot;]&#x27;;
+  const disabled = &#x27;:disabled,[aria-disabled=&quot;true&quot;]&#x27;;
+  const selectTab = (selected) =&gt; {
+    const panelId = selected.getAttribute(&quot;aria-controls&quot;);
+    for (const tab of selected.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;)) {
+      const active = tab === selected;
+      tab.classList.toggle(&quot;active&quot;, active);
+      tab.setAttribute(&quot;aria-selected&quot;, String(active));
+      const id = tab.getAttribute(&quot;aria-controls&quot;);
+      const panel = id &amp;&amp; document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden &amp;&amp; selected.id) {
+          panel.setAttribute(&quot;aria-labelledby&quot;, selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) =&gt; {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === &quot;click&quot;) {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;),
+    ).filter((candidate) =&gt; !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === &quot;ArrowRight&quot; || event.key === &quot;ArrowDown&quot;) {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === &quot;ArrowLeft&quot; || event.key === &quot;ArrowUp&quot;) {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === &quot;Home&quot;) {
+      next = 0;
+    } else if (event.key === &quot;End&quot;) {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll(&#x27;.nav[role=&quot;tablist&quot;]&#x27;)) {
+    const selected =
+      list.querySelector(&#x27;[role=&quot;tab&quot;][aria-selected=&quot;true&quot;]&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;].active&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;]&#x27;);
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener(&quot;click&quot;, interact);
+  document.addEventListener(&quot;keydown&quot;, interact);
+  window.addEventListener(&quot;pagehide&quot;, () =&gt; {
+    document.removeEventListener(&quot;click&quot;, interact);
+    document.removeEventListener(&quot;keydown&quot;, interact);
+  }, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>

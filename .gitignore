@@ -1,0 +1,31 @@
+# 编辑器本地配置
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# 前端依赖与构建产物
+node_modules/
+/frontend/dist/
+
+# 后端编译产物
+/backend/target/
+/backend/out/
+
+# 运行日志
+*.log
+
+# 本地环境变量；允许提交无秘密的示例
+.env
+.env.*
+!.env.example
+
+# 约定用于本机秘密配置的文件
+application-local.properties
+application-local.yml
+application-local.yaml
+
+# 操作系统临时文件
+.DS_Store
+Thumbs.db
