@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import com.github.luoyubyte.backend.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
@@ -24,5 +25,22 @@ public interface UserMapper {
         FROM sys_user
         WHERE employee_no = #{employeeNo}
         """)
-    SysUser findByEmployeeNo(@Param("employeeNo") String employeeNo);
+    SysUser findByEmployeeNo(
+            @Param("employeeNo") String employeeNo
+
+    );
+    @Update(""" 
+        UPDATE sys_user
+        SET password_hash =#{newPasswordHash},
+            must_change_password = FALSE
+        WHERE id =#{id}
+            AND status ='ACTIVE'
+            AND CAST(password_hash AS BINARY)
+        =CAST(#{expectedPasswordHash} AS BINARY)
+""")
+    int updatePassword(
+            @Param("id") Long id,
+            @Param("expectedPasswordHash") String expectedPasswordHash,
+            @Param("newPasswordHash") String newPasswordHash
+    );
 }
